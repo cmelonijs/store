@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { APP_NAME } from "@/lib/constants";
 
 const Homepage = () => {
   return (
     <>
-      <Button>ciao</Button>
+      <h1>{APP_NAME}</h1>
     </>
   );
 };
