@@ -15,5 +15,6 @@ export async function getLatestProducts() {
     },
   });
 
+  //   return data;
   return convertToPlainObject(data);
 }
