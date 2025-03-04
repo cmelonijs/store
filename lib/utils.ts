@@ -37,7 +37,6 @@ export function formatError(error: any) {
     return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`;
   } else {
     // handle other error
-
     return typeof error.message === "string"
       ? error.message
       : JSON.stringify(error.message);
