@@ -19,7 +19,6 @@ export const authConfig = {
 
       // Get pathname from the req URL object
       const { pathname } = request.nextUrl;
-      console.log(auth);
       // Check if user is not authenticated and accessing a protected path
       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
 
