@@ -3,6 +3,7 @@
 import { CartItem } from "@/types";
 
 export async function addItemToCart(data: CartItem) {
+  console.log("data", data);
   return {
     success: false,
     message: "cè un problema",
