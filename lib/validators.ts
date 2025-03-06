@@ -72,7 +72,7 @@ export const shippingAddressSchema = z.object({
     .min(3, "Street address must be at least 3 characters"),
   city: z.string().min(3, "City name must be at least 3 characters"),
   postalCode: z.string().min(3, "Postal code must be at least 3 characters"),
-  Country: z.string().min(3, "Country Name must be at least 3 characters"),
+  country: z.string().min(3, "Country Name must be at least 3 characters"),
   lat: z.number().optional(),
   lng: z.number().optional(),
 });
