@@ -16,3 +16,11 @@ export const signUpDefaultValues = {
   password: "",
   confirmPassword: "",
 };
+
+export const shippingAddressDefaultValue = {
+  fullName: "Massimo",
+  streetAddress: "Via Cagliari 21",
+  city: "Sassari",
+  postalCode: "07100",
+  country: "Italy",
+};
