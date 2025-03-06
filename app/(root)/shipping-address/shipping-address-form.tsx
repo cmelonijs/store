@@ -30,7 +30,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
     defaultValues: address || shippingAddressDefaultValue,
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: unknown) => {
     startTransition(() => {
       console.log("values", values);
       return;
