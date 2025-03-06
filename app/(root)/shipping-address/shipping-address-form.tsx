@@ -2,11 +2,11 @@
 
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { shippingAddressDefaultValue } from "@/lib/constants";
 import { useTransition } from "react";
 import {
@@ -22,19 +22,21 @@ import { ArrowRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
-  const router = useRouter();
+  // const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: address || shippingAddressDefaultValue,
   });
 
-  const onSubmit = (values) => {
-    console.log("values", values);
-    return;
+  const onSubmit = (values: any) => {
+    startTransition(() => {
+      console.log("values", values);
+      return;
+    });
   };
 
-  const [isPending, startTransition] = useTransition();
   return (
     <>
       <div className="max-w-md mx-auto space-y-4">
