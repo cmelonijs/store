@@ -13,7 +13,6 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { formatError } from "../utils";
 import { ShippingAddress } from "@/types";
 import { z } from "zod";
-import { Currency } from "lucide-react";
 
 // sign in the user with credentials
 export async function signInWithCredentials(
