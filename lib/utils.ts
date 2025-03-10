@@ -68,3 +68,58 @@ export function formatCurrency(amount: number | string | null) {
     return "NaN";
   }
 }
+
+// SHORTEN UUID
+export function formatId(id: string) {
+  return `..${id.substring(id.length - 6)}`;
+}
+
+// FORMAT DATE ANDA TIMES
+export const formatDateTime = (dateString: Date) => {
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    month: "short", // mese abbreviato (es. 'ott')
+    year: "numeric", // anno numerico (es. '2023')
+    day: "numeric", // giorno numerico (es. '25')
+    hour: "numeric", // ora numerica (es. '8')
+    minute: "numeric", // minuto numerico (es. '30')
+    hour12: false, // usa l'orologio a 24 ore (false) o a 12 ore (true)
+  };
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // giorno della settimana abbreviato (es. 'lun')
+    month: "short", // mese abbreviato (es. 'ott')
+    year: "numeric", // anno numerico (es. '2023')
+    day: "numeric", // giorno numerico (es. '25')
+  };
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric", // ora numerica (es. '8')
+    minute: "numeric", // minuto numerico (es. '30')
+    hour12: false, // usa l'orologio a 24 ore (false) o a 12 ore (true)
+  };
+  const formattedDateTime: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    dateTimeOptions
+  );
+  const formattedDate: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    dateOptions
+  );
+  const formattedTime: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    timeOptions
+  );
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime,
+  };
+};
+
+const testDate = new Date("2023-10-25T08:30:00Z"); // Example date string
+
+// Call the formatDateTime function
+const formatted = formatDateTime(testDate);
+
+// Log the results
+console.log("Full DateTime:", formatted.dateTime); // Expected output: "Oct 25, 2023, 1:30 AM" (adjusted for timezone)
+console.log("Date Only:", formatted.dateOnly); // Expected output: "Wed, Oct 25, 2023"
+console.log("Time Only:", formatted.timeOnly); // Expected output: "1:30 AM" (adjusted for timezone)
