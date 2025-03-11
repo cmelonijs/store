@@ -113,13 +113,3 @@ export const formatDateTime = (dateString: Date) => {
     timeOnly: formattedTime,
   };
 };
-
-const testDate = new Date("2023-10-25T08:30:00Z"); // Example date string
-
-// Call the formatDateTime function
-const formatted = formatDateTime(testDate);
-
-// Log the results
-console.log("Full DateTime:", formatted.dateTime); // Expected output: "Oct 25, 2023, 1:30 AM" (adjusted for timezone)
-console.log("Date Only:", formatted.dateOnly); // Expected output: "Wed, Oct 25, 2023"
-console.log("Time Only:", formatted.timeOnly); // Expected output: "1:30 AM" (adjusted for timezone)

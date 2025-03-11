@@ -167,7 +167,7 @@ export async function createPaypalOrder(orderId: string) {
 // approve paypal order and update orde to paid
 export async function approvePaypalOrder(
   orderId: string,
-  data: { orderId: string }
+  data: { orderID: string }
 ) {
   try {
     // get order from the db
@@ -181,7 +181,7 @@ export async function approvePaypalOrder(
       throw new Error("No order found");
     }
 
-    const captureData = await paypal.capturePayment(data.orderId);
+    const captureData = await paypal.capturePayment(data.orderID);
 
     if (
       !captureData ||
