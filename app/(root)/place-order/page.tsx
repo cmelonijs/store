@@ -114,27 +114,29 @@ const PlaceorderPage = async () => {
             </CardContent>
           </Card>{" "}
         </div>
-        <Card>
-          <CardContent className="p-4 gap-4 space-y-4">
-            <div className="flex justify-between">
-              <div>Items</div>
-              <div>{formatCurrency(cart.itemsPrice)}</div>
-            </div>
-            <div className="flex justify-between">
-              <div>Tax</div>
-              <div>{formatCurrency(cart.taxPrice)}</div>
-            </div>
-            <div className="flex justify-between">
-              <div>Shipping</div>
-              <div>{formatCurrency(cart.shippingPrice)}</div>
-            </div>
-            <div className="flex justify-between">
-              <div>Total</div>
-              <div>{formatCurrency(cart.totalPrice)}</div>
-            </div>
-            <PlaceOrderForm />
-          </CardContent>
-        </Card>
+        <div>
+          <Card>
+            <CardContent className="p-4 gap-4 space-y-4">
+              <div className="flex justify-between">
+                <div>Items</div>
+                <div>{formatCurrency(cart.itemsPrice)}</div>
+              </div>
+              <div className="flex justify-between">
+                <div>Tax</div>
+                <div>{formatCurrency(cart.taxPrice)}</div>
+              </div>
+              <div className="flex justify-between">
+                <div>Shipping</div>
+                <div>{formatCurrency(cart.shippingPrice)}</div>
+              </div>
+              <div className="flex justify-between">
+                <div>Total</div>
+                <div>{formatCurrency(cart.totalPrice)}</div>
+              </div>
+              <PlaceOrderForm />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </>
   );
