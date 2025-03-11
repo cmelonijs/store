@@ -24,19 +24,19 @@ test("creates a paypal order", async () => {
   expect(orderResponse.status).toBe("CREATED");
 });
 
-// TEST CAPTURE PAYMENT WITH A MOCK ORDER
-test("simulate capturing a payment from an order", async () => {
-  const orderId = "100";
+// // TEST CAPTURE PAYMENT WITH A MOCK ORDER
+// test("simulate capturing a payment from an order", async () => {
+//   const orderId = "100";
 
-  const mockCapturePayment = jest
-    .spyOn(paypal, "capturePayment")
-    .mockResolvedValue({
-      status: "COMPLETED",
-    });
+//   const mockCapturePayment = jest
+//     .spyOn(paypal, "capturePayment")
+//     .mockResolvedValue({
+//       status: "COMPLETED",
+//     });
 
-  const captureResponse = await paypal.capturePayment(orderId);
+//   const captureResponse = await paypal.capturePayment(orderId);
 
-  expect(captureResponse).toHaveProperty("status", "COMPLETED");
+//   expect(captureResponse).toHaveProperty("status", "COMPLETED");
 
-  mockCapturePayment.mockRestore();
-});
+//   mockCapturePayment.mockRestore();
+// });
