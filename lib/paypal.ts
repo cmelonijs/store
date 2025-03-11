@@ -41,7 +41,7 @@ export const paypal = {
       },
     });
 
-    handleResponse(response);
+    return handleResponse(response);
   },
 };
 
