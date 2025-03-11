@@ -7,7 +7,6 @@ import { getUserById } from "./user.actions";
 import { insertOrderSchema } from "../validators";
 import { prisma } from "@/db/prisma";
 import { CartItem } from "@/types";
-import { string } from "zod";
 import { paypal } from "../paypal";
 
 // create order and create the order items
