@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllOrders } from "@/lib/actions/order.actions";
+import { deleteOrder, getAllOrders } from "@/lib/actions/order.actions";
 import { requireAdmin } from "@/lib/guard";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Metadata } from "next";
@@ -33,8 +34,6 @@ const AdminOrdersPage = async (props: {
   const orders = await getAllOrders({
     page: Number(page),
   });
-
-  console.log("orders", orders);
 
   return (
     <div className="space-y-2">
@@ -75,6 +74,7 @@ const AdminOrdersPage = async (props: {
                       <span className="px-2">Details</span>
                     </Link>
                   </Button>
+                  <DeleteDialog id={order.id} action={deleteOrder} />
                 </TableCell>
               </TableRow>
             ))}
