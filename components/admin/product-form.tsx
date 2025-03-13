@@ -4,7 +4,7 @@ import { Product } from "@/types";
 import { useRouter } from "next/navigation";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { productDefaultValues } from "@/lib/constants";
@@ -20,11 +20,7 @@ import slugify from "slugify";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-//  if (!res.success) {
-//    toast.error(res.message);
-
-//    return;
-//  }
+import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 
 const ProductForm = ({
   type,
@@ -45,10 +41,52 @@ const ProductForm = ({
       product && type === "Update" ? product : productDefaultValues,
   });
 
+  const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
+    values
+  ) => {
+    // ON CREATE
+    if (type === "Create") {
+      const res = await createProduct(values);
+
+      if (!res.success) {
+        toast.error(res.message);
+
+        return;
+      } else {
+        toast.success(res.message, {});
+
+        router.push("/admin/products");
+      }
+    }
+
+    // ON UPDATE
+    if (type === "Update") {
+      if (!productId) {
+        router.push("/admin/products");
+        return;
+      }
+      const res = await updateProduct({ ...values, id: productId });
+
+      if (!res.success) {
+        toast.error(res.message);
+
+        return;
+      } else {
+        toast.success(res.message, {});
+
+        router.push("/admin/products");
+      }
+    }
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-4">
-        <div className="flex flex-col md:flex-row items-start gap-5 ">
+      <form
+        method="POST"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
+        <div className="flex flex-col  md:flex-row items-start gap-5 ">
           {/* Name */}
           <FormField
             control={form.control}
@@ -108,7 +146,7 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className="flex flex-col md:flex-row gap-5">
+        <div className="flex flex-col items-start md:flex-row gap-5">
           {/* Category */}
           <FormField
             control={form.control}
@@ -152,7 +190,7 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className="flex flex-col md:flex-row gap-5">
+        <div className="flex flex-col items-start md:flex-row gap-5">
           {/* Price */}
           <FormField
             control={form.control}
@@ -196,7 +234,7 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className="upload-field flex flex-col md:flex-row gap-5">
+        <div className="upload-field flex flex-col items-start md:flex-row gap-5">
           {/* Images */}
         </div>
         <div className="upload-field">Upload field</div>
