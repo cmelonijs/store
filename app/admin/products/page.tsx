@@ -1,5 +1,17 @@
+import Pagination from "@/components/shared/pagination";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getAllProducts } from "@/lib/actions/product.actions";
 import { requireAdmin } from "@/lib/guard";
+import { formatCurrency, formatId } from "@/lib/utils";
+import Link from "next/link";
 
 const AdminProductsPage = async (props: {
   searchParams: Promise<{ page: string; query: string; category: string }>;
@@ -14,16 +26,53 @@ const AdminProductsPage = async (props: {
   const products = await getAllProducts({
     query: searchText,
     page,
+    limit: 4,
     category,
   });
-
-  console.log("products", products);
 
   return (
     <div className="space-y-2">
       <div className="flex flex-between">
         <h1 className="h2-bold">Products</h1>
+        <Button asChild variant="default">
+          <Link href="/admin(product/create">Create a new product</Link>
+        </Button>
       </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>NAME</TableHead>
+            <TableHead className="text-right">PRICE</TableHead>
+            <TableHead>CATEGORY</TableHead>
+            <TableHead>STOCK</TableHead>
+            <TableHead>RATING</TableHead>
+            <TableHead>ACTIONS</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {products.data.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>{formatId(product.id)}</TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{formatCurrency(product.price)}</TableCell>
+              <TableCell>{product.category}</TableCell>
+              <TableCell>{product.stock}</TableCell>
+              <TableCell>{product.rating}</TableCell>
+              <TableCell className="flex gap-1">
+                <Button variant="outline">
+                  <Link href={`admin/products/${product.id}`}>Edit</Link>
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {products.totalPages && products.totalPages > 1 && (
+        <Pagination page={page} totalPages={products.totalPages} />
+      )}
     </div>
   );
 };
