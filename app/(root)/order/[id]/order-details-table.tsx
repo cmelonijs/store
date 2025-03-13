@@ -24,14 +24,20 @@ import { toast } from "sonner";
 import {
   approvePaypalOrder,
   createPaypalOrder,
+  updateOrderToDelivered,
+  updateOrderToPaidCOD,
 } from "@/lib/actions/order.actions";
+import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
+  isAdmin,
 }: {
   order: Order;
   paypalClientId: string;
+  isAdmin: boolean;
 }) => {
   const {
     id,
@@ -84,6 +90,58 @@ const OrderDetailsTable = ({
     }
 
     toast.success(res.message, {});
+  };
+
+  const MarkAsPaidButton = () => {
+    const [isPending, startTransition] = useTransition();
+
+    return (
+      <Button
+        type="button"
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await updateOrderToPaidCOD(order.id);
+
+            if (!res.success) {
+              toast.error(res.message);
+
+              return;
+            }
+
+            toast.success(res.message, {});
+          })
+        }
+      >
+        {isPending ? "Processing..." : "Mark as paid"}
+      </Button>
+    );
+  };
+
+  const MarkAsDeliveredButton = () => {
+    const [isPending, startTransition] = useTransition();
+
+    return (
+      <Button
+        type="button"
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await updateOrderToDelivered(order.id);
+
+            if (!res.success) {
+              toast.error(res.message);
+
+              return;
+            }
+
+            toast.success(res.message, {});
+          })
+        }
+      >
+        {isDelivered ? "Processing..." : "Mark as delivered"}
+      </Button>
+    );
   };
   return (
     <>
@@ -192,6 +250,9 @@ const OrderDetailsTable = ({
                   </PayPalScriptProvider>
                 </div>
               )}
+
+              {isAdmin && !isPaid && <MarkAsPaidButton />}
+              {isAdmin && isPaid && !isDelivered && <MarkAsDeliveredButton />}
             </CardContent>
           </Card>
         </div>
