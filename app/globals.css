@@ -213,3 +213,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+html.dark .upload-field .text-white {
+  color: #fff !important;
+}
+
+html .upload-field .text-white {
+  color: #000 !important;
+}
