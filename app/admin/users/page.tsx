@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getAllUser } from "@/lib/actions/user.actions";
+import { deleteUser, getAllUser } from "@/lib/actions/user.actions";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import { formatId } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import DeleteDialog from "@/components/shared/delete-dialog";
 
 export const metadata: Metadata = {
   title: "Admin Users",
@@ -22,7 +23,7 @@ const AdminUsersPage = async (props: {
   searchParams: Promise<{ page: 1 }>;
 }) => {
   const { page = 1 } = await props.searchParams;
-  const users = await getAllUser({ page: Number(page), limit: 4 });
+  const users = await getAllUser({ page: Number(page) });
 
   console.log("users", users);
   return (
@@ -56,6 +57,7 @@ const AdminUsersPage = async (props: {
                   <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/users/${user.id}`}>Edit</Link>
                   </Button>
+                  <DeleteDialog id={user.id} action={deleteUser} />
                 </TableCell>
               </TableRow>
             ))}
