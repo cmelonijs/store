@@ -25,7 +25,6 @@ const AdminUsersPage = async (props: {
   const { page = 1 } = await props.searchParams;
   const users = await getAllUser({ page: Number(page) });
 
-  console.log("users", users);
   return (
     <div className="space-y-2">
       <h2 className="h2-bold">Users</h2>
