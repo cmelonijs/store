@@ -39,23 +39,45 @@ export async function getProductById(productId: string) {
 
 // get all products
 export async function getAllProducts({
-  // query,
+  query,
   limit = PAGE_SIZE,
   page,
-}: // category,
-{
+  category,
+}: {
   query: string;
   limit?: number;
   page: number;
   category?: string;
 }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const whereClause: any = {};
+
+  // QUESTA PARTE È STATA AGGIUNTA DOPO PERCHÈ MANCAVA
+  // Filtra per categoria se è stata fornita
+  if (category) {
+    whereClause.category = category;
+  }
+
+  // Filtra per query se è stata fornita
+  if (query) {
+    whereClause.OR = [
+      { name: { contains: query, mode: "insensitive" } }, // Cerca nel nome
+      { description: { contains: query, mode: "insensitive" } }, // Cerca nella descrizione
+    ];
+  }
+
+  // Recupera i prodotti filtrati
   const data = await prisma.product.findMany({
+    where: whereClause,
     orderBy: { createdAt: "desc" },
     skip: (page - 1) * limit,
     take: limit,
   });
 
-  const dataCount = await prisma.product.count();
+  // Conta il numero totale di prodotti con il filtro applicato
+  const dataCount = await prisma.product.count({
+    where: whereClause,
+  });
 
   return {
     data,
