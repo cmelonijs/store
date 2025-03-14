@@ -13,6 +13,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { formatError } from "../utils";
 import { ShippingAddress } from "@/types";
 import { z } from "zod";
+import { PAGE_SIZE } from "../constants";
 
 // sign in the user with credentials
 export async function signInWithCredentials(
@@ -197,4 +198,28 @@ export async function updateProfile(user: { name: string; email: string }) {
       message: formatError(err),
     };
   }
+}
+
+// get all the user
+export async function getAllUser({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  const data = await prisma.user.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+
+  const dataCount = await prisma.user.count();
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
 }
